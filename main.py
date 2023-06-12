@@ -4,6 +4,14 @@ import cv2
 import os
 import argparse
 
+def initialize_folders():
+    if not os.path.exists('images'):
+        os.mkdir('images')
+        print('images directory created!')
+    if not os.path.exists('text'):
+        os.mkdir('text')
+        print('text directory created!')
+
 def convert_pdf_to_image(file_name, pdf_path):
     try:
         images = convert_from_path(pdf_path)
@@ -53,6 +61,7 @@ def initialize_argparse():
     return args
 
 def main():
+    initialize_folders()
     args = initialize_argparse()
     
     file_path = args.file
