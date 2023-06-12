@@ -1,0 +1,3 @@
+pdf2dimage
+pytesseract
+opencv-python
