@@ -4,6 +4,10 @@ import cv2
 import os
 import argparse
 import openai
+from dotenv import dotenv_values
+
+config = dotenv_values('.env')
+openai.api_key = config['API_KEY']
 
 def initialize_folders():
     if not os.path.exists('images'):
@@ -62,8 +66,6 @@ def initialize_argparse():
     return args
 
 def proofread_text(text):
-    openai.api_key = os.getenv("API_KEY")
-    
     prompt = 'You are a professional proofreader working for an elementary school. Your job is to correct the grammar and strucure of the exam. The response should be in markdown. Highlight the changes you made by making adding a strikethrough to the words or phrase you will not need while also adding in bold the changes you made. The exam is as follow: ' 
 
 
