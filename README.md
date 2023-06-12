@@ -1,5 +1,5 @@
 ## Exam Proofreader
-An exam proofreading program using AI to automatically generate the correct grammar and structure of an exam question and answer.
+An exam proofreading CLI app using AI to generate the correct grammar and structure of an exam question and answer.
 
 ### Installation
 Install the dependencies
