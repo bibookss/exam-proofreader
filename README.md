@@ -1,4 +1,4 @@
-## Exam Proofreaded
+## Exam Proofreader
 An exam proofreading program using AI to automatically generate the correct grammar and structure of an exam question and answer.
 
 ### Installation
@@ -13,8 +13,10 @@ sudo apt install tesseract-ocr -y
 ```
 
 ### Usage
-```main.py [-h] [-e {pdf,image}] [-p {pdf,image,text}] file
-
+```
+python3 main.py [-h] [-e {pdf,image}] [-p {pdf,image,text}] file
+```
+```
 positional arguments:
   file                  the file
 
