@@ -3,6 +3,7 @@ import pytesseract
 import cv2
 import os
 import argparse
+import openai
 
 def initialize_folders():
     if not os.path.exists('images'):
@@ -25,9 +26,9 @@ def convert_pdf_to_image(file_name, pdf_path):
             image_list.append(image_name)
             images[i].save(image_name, 'JPEG')
 
-        print("Successfully converted to images!")
+        print('Successfully converted to images!')
     except:
-        print("An error occured!")
+        print('An error occured!')
     
     return image_list
 
@@ -59,6 +60,25 @@ def initialize_argparse():
     args = parser.parse_args()
 
     return args
+
+def proofread_text(text):
+    openai.api_key = os.getenv("API_KEY")
+    
+    prompt = 'You are a professional proofreader working for an elementary school. Your job is to correct the grammar and strucure of the exam. The response should be in markdown. Highlight the changes you made by making adding a strikethrough to the words or phrase you will not need while also adding in bold the changes you made. The exam is as follow: ' 
+
+
+    _model = 'gpt-3.5-turbo'
+    _message = [{ 'role': 'user', 'content' : prompt + text }]
+    
+    print (_message)
+
+    response = openai.ChatCompletion.create(
+        model = _model,
+        message = _message
+    )
+
+    return response.choices[0].message['content']
+
 
 def main():
     initialize_folders()
@@ -97,17 +117,32 @@ def main():
             text += extract_text_from_image(image)
 
         # Proofread text
+        new_text = proofread_text(text)
+
+        # Save text
+        p_file_name = f'PR-{file-name}'
+        save_text_to_file(p_file_name, text)
 
     if args.proofread == 'image':
         # Convert to text
         text = extract_text_from_image(file_path)
 
         # Proofread text
+        new_text = proofread_text(text)
+        
+        # Save text
+        p_file_name = f'PR-{file_name}'
+        save_text_to_file(p_file_name, text)
 
     if args.proofread == 'text':
-        # Proofread text
-        pass
+        text = file_path
 
+        # Proofread text
+        new_text = proofread_text(text)
+
+        # Save text
+        p_file_name = f'PR-{file_name}'
+        save_text_to_file(p_file_name, text)
     
 
 if __name__ == '__main__':
